@@ -3,547 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeniusLab | Nivel Avanzado</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Attendance Pro | Dashboard</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+        }
 
-<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-/* Variables y Configuración Base */
-:root {
-    --primary: #8b5cf6;
-    --primary-glow: rgba(139, 92, 246, 0.5);
-    --secondary: #ec4899;
-    --dark: #09090b;
-    --glass-bg: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --text-main: #f8fafc;
-    --text-muted: #a1a1aa;
-}
+        body {
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', system-ui, sans-serif;
-    scroll-behavior: smooth;
-}
+        .dashboard {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 25px;
+        }
 
-body {
-    background-color: var(--dark);
-    color: var(--text-main);
-    overflow-x: hidden;
-    position: relative;
-}
+        /* Glassmorphism Effect */
+        .glass {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px;
+        }
 
-/* Scrollbar personalizado */
-::-webkit-scrollbar {
-    width: 10px;
-}
-::-webkit-scrollbar-track {
-    background: var(--dark);
-}
-::-webkit-scrollbar-thumb {
-    background: #3f3f46;
-    border-radius: 5px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: var(--primary);
-}
+        /* Header & Time */
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
 
-/* Efecto Glassmorphism Global */
-.glass {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
-}
+        #reloj {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-/* Fondos Animados (Blobs) */
-.blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    z-index: -1;
-    animation: floatBlob 10s infinite alternate ease-in-out;
-}
-.blob-1 {
-    top: -10%;
-    left: -10%;
-    width: 400px;
-    height: 400px;
-    background: var(--primary-glow);
-}
-.blob-2 {
-    top: 40%;
-    right: -10%;
-    width: 350px;
-    height: 350px;
-    background: rgba(236, 72, 153, 0.3);
-    animation-delay: -5s;
-}
+        /* Profile Section */
+        .profile-card { text-align: center; }
+        .avatar {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            margin-bottom: 15px;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
 
-@keyframes floatBlob {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(50px, 50px) scale(1.1); }
-}
+        .status-indicator {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
 
-/* --- Navegación Avanzada --- */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 5%;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    border-bottom: 1px solid var(--glass-border);
-}
+        .in-job { background: rgba(34, 197, 94, 0.2); color: var(--success); border: 1px solid var(--success); }
+        .out-job { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); }
 
-.logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -1px;
-}
-.logo span {
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        /* Buttons Grid */
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
 
-}
-.hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    gap: 5px;
-}
-.hamburger span {
-    width: 25px;
-    height: 3px;
-    background: var(--text-main);
-    transition: 0.3s;
-    border-radius: 3px;
-}
+        .btn {
+            border: none;
+            border-radius: 16px;
+            padding: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 0.9rem;
+        }
 
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 2.5rem;
-    align-items: center;
-}
-.nav-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-weight: 500;
-    transition: 0.3s;
-    position: relative;
-}
-/* Efecto de línea debajo del link */
-.nav-links a:not(.btn-nav)::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -5px;
-    left: 0;
-    background: var(--primary);
-    transition: 0.3s;
-}
-.nav-links a:not(.btn-nav):hover::after {
-    width: 100%;
-}
-.nav-links a:hover {
-    color: var(--text-main);
-}
+        .btn i { font-size: 1.8rem; }
+        .btn:hover:not(:disabled) { transform: translateY(-5px); filter: brightness(1.1); }
+        .btn:disabled { opacity: 0.2; cursor: not-allowed; }
 
-.btn-nav {
-    background: var(--text-main);
-    color: var(--dark) !important;
-    padding: 0.6rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-}
+        .btn-entry { background: linear-gradient(135deg, #22c55e, #16a34a); box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.3); }
+        .btn-exit { background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3); }
+        .btn-break { background: linear-gradient(135deg, #f59e0b, #d97706); grid-column: span 2; }
 
-/* --- Hero Section --- */
-.hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 0 5%;
-    padding-top: 80px;
-    gap: 2rem;
-}
-.hero-content {
-    flex: 1;
-}
-.badge {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    background: rgba(139, 92, 246, 0.1);
-    border: 1px solid var(--primary);
-    color: #c4b5fd;
-    font-size: 0.85rem;
-    margin-bottom: 1.5rem;
-}
-.hero h1 {
-    font-size: clamp(3rem, 5vw, 5rem);
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-    letter-spacing: -2px;
-}
-.hero h1 span {
-    font-style: italic;
-    color: var(--primary);
-}
-.hero p {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    max-width: 500px;
-    margin-bottom: 2.5rem;
-}
-.hero-btns {
-    display: flex;
-    gap: 1rem;
-}
+        /* Table Style */
+        .history-card { margin-top: 25px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { color: var(--text-muted); text-align: left; padding: 12px; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        td { padding: 15px 12px; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
 
-/* Botones Avanzados */
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary), #7c3aed);
-    color: white;
-    padding: 0.8rem 2rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px var(--primary-glow);
-}
-.btn-primary .arrow {
-    transition: transform 0.3s;
-}
-.btn-primary:hover .arrow {
-    transform: translateX(5px);
-}
-.glass-btn {
-    padding: 0.8rem 2rem;
-    border-radius: 8px;
-    text-decoration: none;
-    color: var(--text-main);
-    font-weight: 600;
-    transition: 0.3s;
-}
-.glass-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
+        .tag { font-family: monospace; color: var(--primary); background: rgba(99, 102, 241, 0.1); padding: 2px 6px; border-radius: 4px; }
 
-/* Animación de la tarjeta flotante en el Hero */
-.hero-image {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    perspective: 1000px;
-}
-.floating-card {
-    width: 350px;
-    height: 250px;
-    border-radius: 16px;
-    padding: 1.5rem;
-    transform: rotateY(-15deg) rotateX(10deg);
-    animation: floatCard 6s ease-in-out infinite;
-    box-shadow: -20px 20px 40px rgba(0,0,0,0.5);
-}
-@keyframes floatCard {
-    0%, 100% { transform: rotateY(-15deg) rotateX(10deg) translateY(0); }
-    50% { transform: rotateY(-15deg) rotateX(10deg) translateY(-20px); }
-}
-/* Detalles internos de la tarjeta simulada */
-.card-header { display: flex; gap: 8px; margin-bottom: 2rem; }
-.dot { width: 12px; height: 12px; border-radius: 50%; }
-.red { background: #ef4444; }
-.yellow { background: #eab308; }
-.green { background: #22c55e; }
-.line { height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; margin-bottom: 1rem; }
-.w-100 { width: 100%; }
-.w-80 { width: 80%; }
-.w-70 { width: 70%; }
-.w-50 { width: 50%; }
-.mt-2 { margin-top: 2rem; }
-
-/* --- Bento Grid de Servicios --- */
-.services {
-    padding: 8rem 5%;
-}
-.section-header {
-    text-align: center;
-    margin-bottom: 4rem;
-}
-.section-header h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-.section-header p {
-    color: var(--text-muted);
-}
-
-.bento-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 250px;
-    gap: 1.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-.bento-item {
-    border-radius: 16px;
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    overflow: hidden;
-}
-/* Efecto de resplandor al pasar el mouse */
-.bento-item::before {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%; width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.5s;
-    pointer-events: none;
-}
-.bento-item:hover::before {
-    opacity: 1;
-}
-.bento-item:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary);
-}
-.span-2 {
-    grid-column: span 2;
-}
-.highlight {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), transparent);
-}
-.bento-item h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-}
-.bento-item p {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-}
-
-/* --- Footer Complejo --- */
-.complex-footer {
-    padding: 5rem 5% 2rem;
-    margin-top: 5rem;
-    border-top: 1px solid var(--glass-border);
-}
-.footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1.5fr;
-    gap: 3rem;
-    margin-bottom: 3rem;
-}
-.footer-brand p {
-    color: var(--text-muted);
-    margin-top: 1rem;
-    max-width: 300px;
-}
-.footer-links h4, .footer-newsletter h4 {
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
-}
-.footer-links ul {
-    list-style: none;
-}
-.footer-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    display: block;
-    margin-bottom: 0.8rem;
-    transition: 0.3s;
-}
-.footer-links a:hover {
-    color: var(--primary);
-    transform: translateX(5px);
-}
-.input-group {
-    display: flex;
-    gap: 0.5rem;
-}
-.input-group input {
-    background: rgba(0,0,0,0.5);
-    border: 1px solid var(--glass-border);
-    padding: 0.8rem 1rem;
-    border-radius: 8px;
-    color: white;
-    width: 100%;
-    outline: none;
-    transition: border-color 0.3s;
-}
-.input-group input:focus {
-    border-color: var(--primary);
-}
-.footer-bottom {
-    text-align: center;
-    padding-top: 2rem;
-    border-top: 1px solid var(--glass-border);
-    color: var(--text-muted);
-    font-size: 0.9rem;
-}
-
-/* --- Media Queries (Responsividad) --- */
-@media (max-width: 992px) {
-    .hero { flex-direction: column; text-align: center; justify-content: center; padding-top: 120px; }
-    .hero-content { display: flex; flex-direction: column; align-items: center; }
-    .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
-    .span-2 { grid-column: span 1; }
-    .footer-grid { grid-template-columns: 1fr; text-align: center; }
-    .input-group { justify-content: center; }
-}
-
-@media (max-width: 768px) {
-    .hamburger { display: flex; }
-    .nav-links {
-        position: absolute;
-        top: 100%; left: 0; width: 100%;
-        background: var(--dark);
-        flex-direction: column;
-        padding: 2rem 0;
-        clip-path: circle(0% at top right);
-        transition: all 0.5s ease-out;
-    }
-    /* Lógica del menú móvil con el checkbox */
-    .menu-toggle:checked ~ .nav-links {
-        clip-path: circle(150% at top right);
-    }
-    .menu-toggle:checked ~ .hamburger span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .menu-toggle:checked ~ .hamburger span:nth-child(2) { opacity: 0; }
-    .menu-toggle:checked ~ .hamburger span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-}
-
-</style>
-
+        /* Animation */
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .live-dot { height: 8px; width: 8px; background: var(--success); border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 2s infinite; }
+    </style>
 </head>
 <body>
 
-    <!-- Fondos Abstractos Animados -->
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-
-    <!-- Navegación con Menú Móvil CSS-Only -->
-    <nav class="navbar glass">
-        <div class="logo">GENIUS<span>LAB</span></div>
-        
-        <input type="checkbox" id="menu-toggle" class="menu-toggle">
-        <label for="menu-toggle" class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </label>
-
-        <ul class="nav-links">
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#estadisticas">Impacto</a></li>
-            <li><a href="#contacto" class="btn-nav">Hablemos</a></li>
-        </ul>
-    </nav>
-
-    <!-- Sección Hero Compleja -->
-    <header id="inicio" class="hero">
-        <div class="hero-content">
-            <div class="badge">🚀 Innovación sin límites</div>
-            <h1>Diseño que <span>desafía</span> <br> la gravedad.</h1>
-            <p>Construimos ecosistemas digitales inmersivos utilizando las últimas técnicas de CSS moderno. Rápido, escalable y visualmente deslumbrante.</p>
-            <div class="hero-btns">
-                <a href="#contacto" class="btn-primary">Iniciar Proyecto <span class="arrow">→</span></a>
-                <a href="#servicios" class="btn-secondary glass-btn">Explorar</a>
-            </div>
+<div class="dashboard">
+    <header class="header glass">
+        <div>
+            <h1 style="font-size: 1.2rem;">Attendance<span style="color:var(--primary)">Pro</span></h1>
+            <p style="color:var(--text-muted); font-size: 0.8rem;"><span class="live-dot"></span> Sincronizado con Servidor Central</p>
         </div>
-        <div class="hero-image">
-            <!-- Tarjeta flotante simulada con CSS -->
-            <div class="floating-card glass">
-                <div class="card-header">
-                    <div class="dot red"></div>
-                    <div class="dot yellow"></div>
-                    <div class="dot green"></div>
-                </div>
-                <div class="card-body">
-                    <div class="line w-80"></div>
-                    <div class="line w-50"></div>
-                    <div class="line w-100 mt-2"></div>
-                    <div class="line w-70"></div>
-                </div>
-            </div>
-        </div>
+        <div id="reloj">00:00:00</div>
     </header>
 
-    <!-- Sección de Servicios con CSS Grid Avanzado -->
-    <section id="servicios" class="services">
-        <div class="section-header">
-            <h2>Nuestra Especialidad</h2>
-            <p>Soluciones de alto rendimiento para marcas ambiciosas.</p>
+    <aside class="glass profile-card">
+        <img src="https://ui-avatars.com/api/?name=Juan+Perez&background=6366f1&color=fff" class="avatar">
+        <h2>Juan Pérez</h2>
+        <p style="color:var(--text-muted)">ID: #992831</p>
+        <div id="status-tag" class="status-indicator out-job">Fuera de Turno</div>
+        <div style="margin-top: 30px; text-align: left;">
+            <p style="font-size: 0.8rem; color: var(--text-muted);">HORAS HOY</p>
+            <p style="font-size: 1.8rem; font-weight: 800;" id="total-hrs">0.00</p>
         </div>
-        <div class="bento-grid">
-            <div class="bento-item glass span-2">
-                <h3>UI/UX Experiencial</h3>
-                <p>No hacemos páginas web, creamos viajes digitales que retienen al usuario desde el primer segundo.</p>
-            </div>
-            <div class="bento-item glass">
-                <h3>Animaciones CSS</h3>
-                <p>Flujos suaves a 60fps sin sobrecargar el navegador.</p>
-            </div>
-            <div class="bento-item glass">
-                <h3>Arquitectura</h3>
-                <p>Estructuras semánticas perfectas para el SEO.</p>
-            </div>
-            <div class="bento-item glass span-2 highlight">
-                <h3>Desarrollo Frontend Avanzado</h3>
-                <p>Componentes modulares, variables CSS y layouts asimétricos que rompen el molde tradicional.</p>
-            </div>
-        </div>
-    </section>
+    </aside>
 
-    <!-- Footer Multipanel -->
-    <footer class="complex-footer glass">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <h2>GENIUS<span>LAB</span></h2>
-                <p>Reescribiendo las reglas del diseño web en Chile y el mundo.</p>
-            </div>
-            <div class="footer-links">
-                <h4>Empresa</h4>
-                <ul>
-                    <li><a href="#">Sobre nosotros</a></li>
-                    <li><a href="#">Carreras</a></li>
-                    <li><a href="#">Prensa</a></li>
-                </ul>
-            </div>
-            <div class="footer-newsletter">
-                <h4>Suscríbete</h4>
-                <div class="input-group">
-                    <input type="email" placeholder="Tu correo electrónico">
-                    <button class="btn-primary">Unirse</button>
-                </div>
-            </div>
+    <main>
+        <div class="glass controls">
+            <button id="entry" class="btn btn-entry" onclick="action('ENTRADA')">
+                <i>📥</i> ENTRADA
+            </button>
+            <button id="exit" class="btn btn-exit" onclick="action('SALIDA')" disabled>
+                <i>📤</i> SALIDA
+            </button>
+            <button id="break" class="btn btn-break" onclick="action('RETIRO')" disabled>
+                <i>🚶</i> SOLICITAR RETIRO TEMPORAL
+            </button>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 GeniusLab. Todos los derechos reservados.</p>
+
+        <div class="glass history-card">
+            <h3>Actividad Reciente</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>EVENTO</th>
+                        <th>HORA EXACTA</th>
+                        <th>ID TRANSACCIÓN</th>
+                    </tr>
+                </thead>
+                <tbody id="log">
+                    <!-- Registros dinámicos -->
+                </tbody>
+            </table>
         </div>
-    </footer>
+    </main>
+</div>
+
+<script>
+    let startTime = null;
+
+    function updateClock() {
+        document.getElementById('reloj').innerText = new Date().toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+
+    function action(type) {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString();
+        const txId = 'TX-' + Math.floor(Math.random()*1000000);
+
+        if(type === 'ENTRADA') {
+            startTime = now;
+            toggleState(true);
+        } else if(type === 'SALIDA') {
+            const diff = (now - startTime) / (1000 * 60 * 60);
+            document.getElementById('total-hrs').innerText = diff.toFixed(2);
+            toggleState(false);
+        }
+
+        const row = `<tr>
+            <td style="font-weight:bold; color:${type === 'ENTRADA' ? '#22c55e' : '#ef4444'}">${type}</td>
+            <td>${timeStr}</td>
+            <td><span class="tag">${txId}</span></td>
+        </tr>`;
+        
+        document.getElementById('log').insertAdjacentHTML('afterbegin', row);
+    }
+
+    function toggleState(isIn) {
+        document.getElementById('entry').disabled = isIn;
+        document.getElementById('exit').disabled = !isIn;
+        document.getElementById('break').disabled = !isIn;
+        
+        const tag = document.getElementById('status-tag');
+        tag.innerText = isIn ? 'En Jornada' : 'Fuera de Turno';
+        tag.className = 'status-indicator ' + (isIn ? 'in-job' : 'out-job');
+    }
+</script>
 
 </body>
 </html>

@@ -6,8 +6,8 @@
     <title>Attendance Pro | Dashboard</title>
     <style>
         :root {
-            --primary: #6366f1;
-            --success: #22c55e;
+            --primary: #ffffff;
+            --success: #ecfff3;
             --danger: #ef4444;
             --warning: #f59e0b;
             --bg: #0f172a;
@@ -33,7 +33,65 @@
             gap: 25px;
         }
 
-        /* Glassmorphism Effect */
+        .hidden { display: none !important; }
+
+        .login-screen {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: 10;
+            padding: 20px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            padding: 40px 30px;
+            text-align: left;
+        }
+
+        .login-card h2 { margin-bottom: 24px; font-size: 2rem; }
+
+        .form-group {
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label { font-size: 0.95rem; color: var(--text-muted); }
+
+        .form-group input {
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.07);
+            color: var(--text);
+            border-radius: 14px;
+            padding: 14px 16px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: rgba(129, 140, 248, 0.8);
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.12);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 18px;
+            border-radius: 16px;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.25);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
         .glass {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
@@ -42,7 +100,6 @@
             padding: 30px;
         }
 
-        /* Header & Time */
         .header {
             grid-column: 1 / -1;
             display: flex;
@@ -61,14 +118,13 @@
             color: transparent;
         }
 
-        /* Profile Section */
         .profile-card { text-align: center; }
         .avatar {
             width: 100px; height: 100px;
             border-radius: 50%;
             border: 3px solid var(--primary);
             margin-bottom: 15px;
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
         }
 
         .status-indicator {
@@ -82,15 +138,11 @@
             letter-spacing: 1px;
         }
 
-        .in-job { background: rgba(34, 197, 94, 0.2); color: var(--success); border: 1px solid var(--success); }
+        .in-job { background: rgba(34, 197, 94, 0.2); color: #22c55e; border: 1px solid #22c55e; }
         .out-job { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); }
+        .break-job { background: rgba(245, 158, 11, 0.2); color: var(--warning); border: 1px solid var(--warning); }
 
-        /* Buttons Grid */
-        .controls {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
         .btn {
             border: none;
@@ -115,7 +167,6 @@
         .btn-exit { background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3); }
         .btn-break { background: linear-gradient(135deg, #f59e0b, #d97706); grid-column: span 2; }
 
-        /* Table Style */
         .history-card { margin-top: 25px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th { color: var(--text-muted); text-align: left; padding: 12px; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -123,14 +174,30 @@
 
         .tag { font-family: monospace; color: var(--primary); background: rgba(99, 102, 241, 0.1); padding: 2px 6px; border-radius: 4px; }
 
-        /* Animation */
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-        .live-dot { height: 8px; width: 8px; background: var(--success); border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 2s infinite; }
+        .live-dot { height: 8px; width: 8px; background: #22c55e; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 2s infinite; }
     </style>
 </head>
 <body>
 
-<div class="dashboard">
+<div id="loginScreen" class="login-screen">
+    <div class="glass login-card">
+        <h2>Iniciar sesión</h2>
+        <form onsubmit="attemptLogin(event)">
+            <div class="form-group">
+                <label for="user">Usuario</label>
+                <input id="user" type="text" placeholder="Ingresa tu usuario" required>
+            </div>
+            <div class="form-group">
+                <label for="pass">Contraseña</label>
+                <input id="pass" type="password" placeholder="Ingresa tu contraseña" required>
+            </div>
+            <button type="submit" class="btn-login">Iniciar sesión</button>
+        </form>
+    </div>
+</div>
+
+<div id="dashboard" class="dashboard hidden">
     <header class="header glass">
         <div>
             <h1 style="font-size: 1.2rem;">Attendance<span style="color:var(--primary)">Pro</span></h1>
@@ -140,8 +207,8 @@
     </header>
 
     <aside class="glass profile-card">
-        <img src="https://ui-avatars.com/api/?name=Juan+Perez&background=6366f1&color=fff" class="avatar">
-        <h2>Juan Pérez</h2>
+        <img src="Img/gaster.png" class="avatar" alt="Avatar" id="profileImg">
+        <h2 id="profileName">Winding Gaster</h2>
         <p style="color:var(--text-muted)">ID: #992831</p>
         <div id="status-tag" class="status-indicator out-job">Fuera de Turno</div>
         <div style="margin-top: 30px; text-align: left;">
@@ -153,7 +220,7 @@
     <main>
         <div class="glass controls">
             <button id="entry" class="btn btn-entry" onclick="action('ENTRADA')">
-                <i>📥</i> ENTRADA
+                <i>📥</i> <span id="entry-text">ENTRADA</span>
             </button>
             <button id="exit" class="btn btn-exit" onclick="action('SALIDA')" disabled>
                 <i>📤</i> SALIDA
@@ -173,9 +240,7 @@
                         <th>ID TRANSACCIÓN</th>
                     </tr>
                 </thead>
-                <tbody id="log">
-                    <!-- Registros dinámicos -->
-                </tbody>
+                <tbody id="log"></tbody>
             </table>
         </div>
     </main>
@@ -183,12 +248,65 @@
 
 <script>
     let startTime = null;
+    let totalHours = 0;
+    let inRetiro = false;
+
+    // --- LÓGICA DEL CÓDIGO KONAMI ---
+    const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    let currentInput = [];
+
+    document.addEventListener('keydown', (e) => {
+        // Detectar teclas y normalizar 'B' y 'A'
+        let key = e.key;
+        if (key === 'B' || key === 'b') key = 'b';
+        if (key === 'A' || key === 'a') key = 'a';
+
+        currentInput.push(key);
+        currentInput = currentInput.slice(-konamiCode.length);
+
+        if (JSON.stringify(currentInput) === JSON.stringify(konamiCode)) {
+            activateAdmin();
+        }
+    });
+
+    function activateAdmin() {
+        alert("¡Código Konami activado! Acceso Administrador concedido.");
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+        document.getElementById('profileName').innerText = "Administrador";
+        document.getElementById('profileImg').src = "https://cdn-icons-png.flaticon.com/512/6024/6024190.png";
+        
+        // Reset de sesión para el nuevo usuario
+        startTime = null;
+        totalHours = 0;
+        inRetiro = false;
+        document.getElementById('total-hrs').innerText = "0.00";
+        document.getElementById('log').innerHTML = "";
+        setStatus('Fuera de Turno');
+    }
+
+    // --- LÓGICA DE LOGIN ---
+    function attemptLogin(event) {
+        event.preventDefault();
+        const user = document.getElementById('user').value.trim();
+        const pass = document.getElementById('pass').value.trim();
+        
+        if (user === 'Winding Gaster' && pass === 'Th3Tru3R0yalScIentistWDG4ster') {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('profileName').innerText = user;
+            setStatus('Fuera de Turno');
+        } else {
+            alert('Usuario o contraseña incorrectos.');
+        }
+    }
 
     function updateClock() {
         document.getElementById('reloj').innerText = new Date().toLocaleTimeString();
     }
     setInterval(updateClock, 1000);
 
+    // --- LÓGICA DE ACCIONES ---
     function action(type) {
         const now = new Date();
         const timeStr = now.toLocaleTimeString();
@@ -196,30 +314,67 @@
 
         if(type === 'ENTRADA') {
             startTime = now;
-            toggleState(true);
+            inRetiro = false;
+            setStatus('En Jornada');
+        } else if(type === 'RETIRO') {
+            if (startTime && !inRetiro) {
+                inRetiro = true;
+                const cycleDiff = (now - startTime) / (1000 * 60 * 60);
+                totalHours += cycleDiff;
+                document.getElementById('total-hrs').innerText = totalHours.toFixed(2);
+                setStatus('En Retiro Temporal');
+            }
         } else if(type === 'SALIDA') {
-            const diff = (now - startTime) / (1000 * 60 * 60);
-            document.getElementById('total-hrs').innerText = diff.toFixed(2);
-            toggleState(false);
+            if (startTime && !inRetiro) {
+                const diff = (now - startTime) / (1000 * 60 * 60);
+                totalHours += diff;
+                document.getElementById('total-hrs').innerText = totalHours.toFixed(2);
+            }
+            startTime = null;
+            inRetiro = false;
+            setStatus('Fuera de Turno');
         }
 
+        let colorHex = '#22c55e'; 
+        if(type === 'SALIDA') colorHex = '#ef4444';
+        if(type === 'RETIRO') colorHex = '#f59e0b';
+
         const row = `<tr>
-            <td style="font-weight:bold; color:${type === 'ENTRADA' ? '#22c55e' : '#ef4444'}">${type}</td>
+            <td style="font-weight:bold; color:${colorHex}">${type}</td>
             <td>${timeStr}</td>
             <td><span class="tag">${txId}</span></td>
         </tr>`;
-        
         document.getElementById('log').insertAdjacentHTML('afterbegin', row);
     }
 
-    function toggleState(isIn) {
-        document.getElementById('entry').disabled = isIn;
-        document.getElementById('exit').disabled = !isIn;
-        document.getElementById('break').disabled = !isIn;
-        
+    function setStatus(status) {
         const tag = document.getElementById('status-tag');
-        tag.innerText = isIn ? 'En Jornada' : 'Fuera de Turno';
-        tag.className = 'status-indicator ' + (isIn ? 'in-job' : 'out-job');
+        const entryBtn = document.getElementById('entry');
+        const entryText = document.getElementById('entry-text');
+        const exitBtn = document.getElementById('exit');
+        const breakBtn = document.getElementById('break');
+
+        tag.innerText = status;
+        
+        if (status === 'En Jornada') {
+            tag.className = 'status-indicator in-job';
+            entryText.innerText = "ENTRADA"; 
+            entryBtn.disabled = true;
+            exitBtn.disabled = false;
+            breakBtn.disabled = false;
+        } else if (status === 'En Retiro Temporal') {
+            tag.className = 'status-indicator break-job';
+            entryText.innerText = "REANUDAR"; 
+            entryBtn.disabled = false; 
+            exitBtn.disabled = false;  
+            breakBtn.disabled = true;
+        } else if (status === 'Fuera de Turno') {
+            tag.className = 'status-indicator out-job';
+            entryText.innerText = "ENTRADA";
+            entryBtn.disabled = false;
+            exitBtn.disabled = true;
+            breakBtn.disabled = true;
+        }
     }
 </script>
 

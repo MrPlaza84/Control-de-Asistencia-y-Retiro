@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance Pro | Dashboard</title>
+    <title>Fungang | Dashboard</title>
     <style>
         :root {
             --primary: #ffffff;
@@ -176,6 +176,43 @@
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
         .live-dot { height: 8px; width: 8px; background: #22c55e; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 2s infinite; }
+
+        /* --- ESTILOS DEL MODAL --- */
+        dialog {
+            margin: auto;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            background: rgba(30, 41, 59, 0.98);
+            backdrop-filter: blur(20px);
+            color: var(--text);
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+        
+        dialog::backdrop {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-textarea {
+            width: 100%;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            color: var(--text);
+            font-size: 1rem;
+            resize: none;
+            margin: 20px 0;
+        }
+
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+        .btn-m { padding: 12px 20px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; }
+        .btn-m-cancel { background: rgba(255,255,255,0.1); color: white; }
+        .btn-m-send { background: var(--danger); color: white; }
     </style>
 </head>
 <body>
@@ -222,11 +259,12 @@
             <button id="entry" class="btn btn-entry" onclick="action('ENTRADA')">
                 <i>📥</i> <span id="entry-text">ENTRADA</span>
             </button>
-            <button id="exit" class="btn btn-exit" onclick="action('SALIDA')" disabled>
+            <!-- Botón de Salida ahora abre el modal -->
+            <button id="exit" class="btn btn-exit" onclick="openExitModal()" disabled>
                 <i>📤</i> SALIDA
             </button>
             <button id="break" class="btn btn-break" onclick="action('RETIRO')" disabled>
-                <i>🚶</i> SOLICITAR RETIRO TEMPORAL
+                <i>🚶</i> SOLICITAR RETIRO TEMPORAL 
             </button>
         </div>
 
@@ -246,6 +284,16 @@
     </main>
 </div>
 
+<!-- Estructura del Modal -->
+<dialog id="exitModal">
+    <h2 style="text-align: center;">Decir lo que hizo</h2>
+    <textarea id="exitTask" class="modal-textarea" placeholder="Resumen de actividades realizadas..."></textarea>
+    <div class="modal-actions">
+        <button class="btn-m btn-m-cancel" onclick="closeExitModal()">Cancelar</button>
+        <button class="btn-m btn-m-send" onclick="confirmExit()">Enviar y Salir</button>
+    </div>
+</dialog>
+
 <script>
     let startTime = null;
     let totalHours = 0;
@@ -256,14 +304,11 @@
     let currentInput = [];
 
     document.addEventListener('keydown', (e) => {
-        // Detectar teclas y normalizar 'B' y 'A'
         let key = e.key;
         if (key === 'B' || key === 'b') key = 'b';
         if (key === 'A' || key === 'a') key = 'a';
-
         currentInput.push(key);
         currentInput = currentInput.slice(-konamiCode.length);
-
         if (JSON.stringify(currentInput) === JSON.stringify(konamiCode)) {
             activateAdmin();
         }
@@ -271,18 +316,7 @@
 
     function activateAdmin() {
         alert("¡Código Konami activado! Acceso Administrador concedido.");
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('dashboard').classList.remove('hidden');
-        document.getElementById('profileName').innerText = "Administrador";
-        document.getElementById('profileImg').src = "https://cdn-icons-png.flaticon.com/512/6024/6024190.png";
-        
-        // Reset de sesión para el nuevo usuario
-        startTime = null;
-        totalHours = 0;
-        inRetiro = false;
-        document.getElementById('total-hrs').innerText = "0.00";
-        document.getElementById('log').innerHTML = "";
-        setStatus('Fuera de Turno');
+        loginSuccess("Administrador", "https://cdn-icons-png.flaticon.com/512/6024/6024190.png", "#818cf8");
     }
 
     // --- LÓGICA DE LOGIN ---
@@ -292,22 +326,62 @@
         const pass = document.getElementById('pass').value.trim();
         
         if (user === 'Winding Gaster' && pass === 'Th3Tru3R0yalScIentistWDG4ster') {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('dashboard').classList.remove('hidden');
-            document.getElementById('profileName').innerText = user;
-            setStatus('Fuera de Turno');
-        } else {
+            loginSuccess(user, "Img/gaster.png", "#ffffff");
+        } 
+        else if (user === 'Liam Van Luuk' && pass === 'SigrunScalibur123') {
+            loginSuccess(user, "Img/Liam.png", "#ef4444");
+        }
+        else if (user === 'Xhasnaphar' && pass === 'KaosXhasna1234') {
+            loginSuccess(user, "Img/Xhasna.png", "#f59e0b");
+        }
+        else if (user === 'Maximiliano Plaza' && pass === 'Contraseñaxd') {
+            loginSuccess(user, "Img/Icono.png", "#ffffff");
+        }
+        else {
             alert('Usuario o contraseña incorrectos.');
         }
     }
 
+    function loginSuccess(name, avatarUrl, borderColor) {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+        const profileImg = document.getElementById('profileImg');
+        document.getElementById('profileName').innerText = name;
+        profileImg.src = avatarUrl;
+        profileImg.style.borderColor = borderColor;
+        profileImg.style.boxShadow = `0 0 20px ${borderColor}66`;
+        startTime = null;
+        totalHours = 0;
+        inRetiro = false;
+        document.getElementById('total-hrs').innerText = "0.00";
+        document.getElementById('log').innerHTML = "";
+        setStatus('Fuera de Turno');
+    }
+
+    // --- FUNCIONES DE RELOJ ---
     function updateClock() {
         document.getElementById('reloj').innerText = new Date().toLocaleTimeString();
     }
     setInterval(updateClock, 1000);
 
-    // --- LÓGICA DE ACCIONES ---
-    function action(type) {
+    // --- LÓGICA DEL MODAL DE SALIDA ---
+    function openExitModal() {
+        document.getElementById('exitTask').value = '';
+        document.getElementById('exitModal').showModal();
+    }
+
+    function closeExitModal() {
+        document.getElementById('exitModal').close();
+    }
+
+    function confirmExit() {
+        const note = document.getElementById('exitTask').value;
+        closeExitModal();
+        action('SALIDA', note);
+    }
+
+    // --- MANEJO DE ACCIONES ---
+    function action(type, note = '') {
         const now = new Date();
         const timeStr = now.toLocaleTimeString();
         const txId = 'TX-' + Math.floor(Math.random()*1000000);
@@ -339,8 +413,11 @@
         if(type === 'SALIDA') colorHex = '#ef4444';
         if(type === 'RETIRO') colorHex = '#f59e0b';
 
+        // Estilo para la nota en el historial
+        let noteHtml = note.trim() !== '' ? `<br><small style="color:var(--text-muted); font-weight:normal;">📝 ${note}</small>` : '';
+
         const row = `<tr>
-            <td style="font-weight:bold; color:${colorHex}">${type}</td>
+            <td style="font-weight:bold; color:${colorHex}">${type}${noteHtml}</td>
             <td>${timeStr}</td>
             <td><span class="tag">${txId}</span></td>
         </tr>`;

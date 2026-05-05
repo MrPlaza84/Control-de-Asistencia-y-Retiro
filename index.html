@@ -234,6 +234,23 @@
     </div>
 </div>
 
+<div id="profileSelection" class="login-screen hidden">
+    <div class="glass login-card">
+        <h2>Seleccionar Perfil</h2>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">Elige un perfil para continuar:</p>
+        <button class="btn-login" onclick="selectProfile('Winding Gaster', 'Img/gaster.png', '#ffffff')">Winding Gaster</button>
+        <button class="btn-login" onclick="selectProfile('Liam Van Luuk', 'Img/Liam.png', '#ef4444')" style="margin-top: 10px;">Liam Van Luuk</button>
+        <button class="btn-login" onclick="selectProfile('Xhasnaphar', 'Img/Xhasna.png', '#f59e0b')" style="margin-top: 10px;">Xhasnaphar</button>
+        <button class="btn-login" onclick="selectProfile('Maximiliano Plaza', 'Img/Icono.png', '#ffffff')" style="margin-top: 10px;">Maximiliano Plaza</button>
+        <button class="btn-login" onclick="selectProfile('Manuel Navarrete', 'Img/Kurt Cobain.png', '#efa94a')" style="margin-top: 10px;">Manuel Navarrete</button>
+        <button class="btn-login" onclick="selectProfile('Chris Novoselic', 'Img/Chris Novoselic.png', '#FFFFFF')" style="margin-top: 10px;">Chris Novoselic</button>
+        <button class="btn-login" onclick="selectProfile('Dave Grohl', 'Img/Dave.jpg', '#000000')" style="margin-top: 10px;">Dave Grohl</button>
+        <button class="btn-login" onclick="selectProfile('Dark Vader', 'Img/Dark Vader.png', '#FFFFFF')" style="margin-top: 10px;">Dark Vader</button>
+        <button class="btn-login" onclick="selectProfile('Obi Wan Kenobi', 'Img/Obi Wan Kenobi.png', '#0EA5E9')" style="margin-top: 10px;">Obi Wan Kenobi</button>
+        <button class="btn-login" onclick="selectProfile('Administrador', 'Img/Icono.png', '#818cf8')" style="margin-top: 10px;">Administrador</button>
+    </div>
+</div>
+
 <div id="dashboard" class="dashboard hidden">
     <header class="header glass">
         <div>
@@ -316,10 +333,21 @@
 
     function activateAdmin() {
         alert("¡Código Konami activado! Acceso Administrador concedido.");
-        loginSuccess("Administrador", "https://cdn-icons-png.flaticon.com/512/6024/6024190.png", "#818cf8");
+        showProfileSelection();
+    }
+
+    function showProfileSelection() {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('profileSelection').classList.remove('hidden');
+    }
+
+    function selectProfile(name, avatarUrl, borderColor) {
+        document.getElementById('profileSelection').classList.add('hidden');
+        loginSuccess(name, avatarUrl, borderColor);
     }
 
     // --- LÓGICA DE LOGIN ---
+
     function attemptLogin(event) {
         event.preventDefault();
         const user = document.getElementById('user').value.trim();
@@ -337,6 +365,28 @@
         else if (user === 'Maximiliano Plaza' && pass === 'Contraseñaxd') {
             loginSuccess(user, "Img/Icono.png", "#ffffff");
         }
+
+        else if (user === 'Manuel Navarrete' && pass ===  'kurt donald cobain') {
+            loginSuccess(user, "Img/Kurt Cobain.png", "#efa94a");
+            
+        }
+
+        else if (user === 'Chris Novoselic' && pass === 'chris novoselic') {
+            loginSuccess(user, "Img/Chris Novoselic.png", "#FFFFFF");
+        }
+
+        else if (user === 'Dave Grohl' && pass === 'dave grohl') {
+            loginSuccess(user, "Img/Dave.jpg", "#000000");
+        }
+
+        else if (user === 'Dark Vader' && pass === 'Yosoytupadre') {
+            loginSuccess(user, "Img/Dark Vader.png", "#FFFFFF");
+        }
+        
+        else if (user === 'Obi Wan Kenobi' && pass === 'HelloThere') {
+            loginSuccess(user, "Img/Obi Wan Kenobi.png", "#0EA5E9");
+        }
+        
         else {
             alert('Usuario o contraseña incorrectos.');
         }
@@ -453,6 +503,7 @@
             breakBtn.disabled = true;
         }
     }
+
 </script>
 
 </body>

@@ -213,6 +213,32 @@
         .btn-m { padding: 12px 20px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; }
         .btn-m-cancel { background: rgba(255,255,255,0.1); color: white; }
         .btn-m-send { background: var(--danger); color: white; }
+
+        /* Estilos para la barra de scroll en la sección de perfiles */
+        .profiles-container {
+            max-height: 500px;
+            overflow-y: scroll;
+            padding-right: 10px;
+        }
+
+        .profiles-container::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .profiles-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .profiles-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+
+        .profiles-container::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #818cf8, #a78bfa);
+        }
     </style>
 </head>
 <body>
@@ -231,23 +257,38 @@
             </div>
             <button type="submit" class="btn-login">Iniciar sesión</button>
         </form>
+
     </div>
 </div>
+
+        <p style=position:fixed; bottom: 10px; left: 50%; transform: translateX(-50%); color: var(--text-muted); font-size: 0.8rem; z-index: 5; margin-top: 10px;>Copyright Fungang©2026</p> 
 
 <div id="profileSelection" class="login-screen hidden">
     <div class="glass login-card">
         <h2>Seleccionar Perfil</h2>
         <p style="color: var(--text-muted); margin-bottom: 20px;">Elige un perfil para continuar:</p>
-        <button class="btn-login" onclick="selectProfile('Winding Gaster', 'Img/gaster.png', '#ffffff')">Winding Gaster</button>
-        <button class="btn-login" onclick="selectProfile('Liam Van Luuk', 'Img/Liam.png', '#ef4444')" style="margin-top: 10px;">Liam Van Luuk</button>
-        <button class="btn-login" onclick="selectProfile('Xhasnaphar', 'Img/Xhasna.png', '#f59e0b')" style="margin-top: 10px;">Xhasnaphar</button>
-        <button class="btn-login" onclick="selectProfile('Maximiliano Plaza', 'Img/Icono.png', '#ffffff')" style="margin-top: 10px;">Maximiliano Plaza</button>
-        <button class="btn-login" onclick="selectProfile('Manuel Navarrete', 'Img/Kurt Cobain.png', '#efa94a')" style="margin-top: 10px;">Manuel Navarrete</button>
-        <button class="btn-login" onclick="selectProfile('Chris Novoselic', 'Img/Chris Novoselic.png', '#FFFFFF')" style="margin-top: 10px;">Chris Novoselic</button>
-        <button class="btn-login" onclick="selectProfile('Dave Grohl', 'Img/Dave.jpg', '#000000')" style="margin-top: 10px;">Dave Grohl</button>
-        <button class="btn-login" onclick="selectProfile('Dark Vader', 'Img/Dark Vader.png', '#FFFFFF')" style="margin-top: 10px;">Dark Vader</button>
-        <button class="btn-login" onclick="selectProfile('Obi Wan Kenobi', 'Img/Obi Wan Kenobi.png', '#0EA5E9')" style="margin-top: 10px;">Obi Wan Kenobi</button>
-        <button class="btn-login" onclick="selectProfile('Administrador', 'Img/Icono.png', '#818cf8')" style="margin-top: 10px;">Administrador</button>
+        <div class="profiles-container">
+            <button class="btn-login" onclick="selectProfile('Winding Gaster', 'Img/gaster.png', '#ffffff')">Winding Gaster</button>
+            <button class="btn-login" onclick="selectProfile('Liam Van Luuk', 'Img/Liam.png', '#ef4444')" style="margin-top: 10px;">Liam Van Luuk</button>
+            <button class="btn-login" onclick="selectProfile('Xhasnaphar', 'Img/Xhasna.png', '#f59e0b')" style="margin-top: 10px;">Xhasnaphar</button>
+            <button class="btn-login" onclick="selectProfile('Maximiliano Plaza', 'Img/Icono.png', '#ffffff')" style="margin-top: 10px;">Maximiliano Plaza</button>
+            <button class="btn-login" onclick="selectProfile('Manuel Navarrete', 'Img/Kurt Cobain.png', '#efa94a')" style="margin-top: 10px;">Manuel Navarrete</button>
+            <button class="btn-login" onclick="selectProfile('Josue Silva', 'Img/Icono.png', '#94a3b8')" style="margin-top: 10px;">Josue Silva</button>
+            <button class="btn-login" onclick="selectProfile('Chris Novoselic', 'Img/Chris Novoselic.png', '#FFFFFF')" style="margin-top: 10px;">Chris Novoselic</button>
+            <button class="btn-login" onclick="selectProfile('Dave Grohl', 'Img/Dave.jpg', '#000000')" style="margin-top: 10px;">Dave Grohl</button>
+            <button class="btn-login" onclick="selectProfile('Dark Vader', 'Img/Dark Vader.png', '#FFFFFF')" style="margin-top: 10px;">Dark Vader</button>
+            <button class="btn-login" onclick="selectProfile('Obi Wan Kenobi', 'Img/Obi Wan Kenobi.png', '#0EA5E9')" style="margin-top: 10px;">Obi Wan Kenobi</button>
+            <button class="btn-login" onclick="selectProfile('Cliff Burton', 'Img/CliffBurton.png', '#559CE6')" style="margin-top: 10px;">Cliff Burton</button>
+            <button class="btn-login" onclick="selectProfile('Nicolas Tesla', 'Img/Tesla.png', '#5E35DE')" style="margin-top: 10px;">Nicolas Tesla</button>
+            <button class="btn-login" onclick="selectProfile('Jotaro Kujo', 'Img/Jotaro.webp', '#7D42FF')" style="margin-top: 10px;">Jotaro Kujo</button>
+            <button class="btn-login" onclick="selectProfile('Albert Einstein', 'Img/Einstein.png', '#6B7280')" style="margin-top: 10px;">Albert Einstein</button>
+            <button class="btn-login" onclick="selectProfile('Marilyn Manson', 'Img/Manson.png', '#381F70')" style="margin-top: 10px;">Marilyn Manson</button>
+            <button class="btn-login" onclick="selectProfile('Donald Trump', 'Img/Trump.png', '#FFC87A')" style="margin-top: 10px;">Donald Trump</button>
+            <button class="btn-login" onclick="selectProfile('Mickey Mouse', 'Img/Mickey.png', '#FF0000')" style="margin-top: 10px;">Mickey Mouse</button>
+            <button class="btn-login" onclick="selectProfile('Trooper', 'Img/Trooper.png', '#FFFFFF')" style="margin-top: 10px;">Trooper</button>
+            <button class="btn-login" onclick="selectProfile('Goofy', 'Img/Goofy.png', '#68FF00')" style="margin-top: 10px;">Goofy</button>
+            <button class="btn-login" onclick="selectProfile('Administrador', 'Img/Icono.png', '#818cf8')" style="margin-top: 10px;">Administrador</button>
+        </div>
     </div>
 </div>
 
@@ -371,6 +412,10 @@
             
         }
 
+        else if (user === 'Josue Silva' && pass === 'jojos' ) {
+            loginSuccess(user, "Img/Icono.png", "#818cf8");
+        }
+
         else if (user === 'Chris Novoselic' && pass === 'chris novoselic') {
             loginSuccess(user, "Img/Chris Novoselic.png", "#FFFFFF");
         }
@@ -386,7 +431,46 @@
         else if (user === 'Obi Wan Kenobi' && pass === 'HelloThere') {
             loginSuccess(user, "Img/Obi Wan Kenobi.png", "#0EA5E9");
         }
+
+        else if (user === 'Cliff Burton' && pass === 'Metallica123') {
+            loginSuccess(user, "Img/CliffBurton.png", "#559CE6");
+        }
+
+        else if (user === 'Nicolas Tesla' && pass === 'EdisonEsUnLadrón') {
+            loginSuccess(user, "Img/Tesla.png", "#5E35DE");
+        }
+
+        else if (user === 'Jotaro Kujo' && pass === 'YareYareDaze') {
+            loginSuccess(user, "Img/Jotaro.webp", "#7D42FF");
+        }
+
+        else if (user === 'Albert Einstein' && pass === 'Relativity123') {
+            loginSuccess(user, "Img/Einstein.png", "#6B7280");
+        }
+
+        else if (user === 'Marilyn Manson' && pass === 'MarilynManson123') {
+            loginSuccess(user, "Img/Manson.png", "#381F70");
+        }
+
+         else if (user === 'Administrador' && pass === 'AdminAccess2024') {
+            loginSuccess(user, "Img/Icono.png", "#818cf8");
+        }
+
+        else if (user === 'Donald Trump' && pass === 'MakeAmericaGreatAgain') {
+            loginSuccess(user, "Img/Trump.png", "#FFC87A");
+        }
+
+        else if (user === 'Mickey Mouse' && pass === 'Disney123') {
+            loginSuccess(user, "Img/Mickey.png", "#FF0000");
+        }
         
+        else if (user === 'Trooper' && pass === 'Storm123') {
+            loginSuccess(user, "Img/Trooper.png", "#FFFFFF");
+        }
+
+        else if (user === 'Goofy' && pass === 'Goofy123') {
+            loginSuccess(user, "Img/Goofy.png", "#68FF00");
+        }
         else {
             alert('Usuario o contraseña incorrectos.');
         }

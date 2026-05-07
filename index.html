@@ -239,6 +239,273 @@
         .profiles-container::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #818cf8, #a78bfa);
         }
+
+        /* --- ESTILOS DEL PANEL ADMINISTRADOR --- */
+        .admin-panel {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 2px solid #818cf8;
+        }
+
+        .admin-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .admin-header h3 {
+            font-size: 1.1rem;
+            color: #818cf8;
+        }
+
+        .admin-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .admin-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .btn-admin {
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .btn-admin:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+        }
+
+        .btn-clear-logs {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-clear-logs:hover {
+            background: linear-gradient(135deg, #f87d0d, #c9630d);
+        }
+
+        .btn-export {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+        }
+
+        /* --- ESTILOS PARA CONFIGURACIÓN DE PERFILES --- */
+        .btn-config {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            color: #818cf8;
+            border-bottom-color: #818cf8;
+        }
+
+        .tab-btn:hover {
+            color: #a78bfa;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .users-table th {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            color: #818cf8;
+            font-weight: 700;
+        }
+
+        .users-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-edit-user {
+            background: #818cf8;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit-user:hover {
+            background: #a78bfa;
+            transform: translateY(-2px);
+        }
+
+        .config-panel {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .config-panel.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .config-content {
+            background: rgba(30, 41, 59, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        .config-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .config-header h2 {
+            font-size: 1.5rem;
+            color: #818cf8;
+        }
+
+        .btn-close-config {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-close-config:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        .edit-user-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .form-group-config {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group-config label {
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group-config input {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-group-config input:focus {
+            outline: none;
+            border-color: #818cf8;
+            background: rgba(129, 140, 248, 0.1);
+        }
+
+        .edit-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn-save-user {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-save-user:hover {
+            background: #16a34a;
+        }
+
+        .btn-cancel-edit {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -287,6 +554,7 @@
             <button class="btn-login" onclick="selectProfile('Mickey Mouse', 'Img/Mickey.png', '#FF0000')" style="margin-top: 10px;">Mickey Mouse</button>
             <button class="btn-login" onclick="selectProfile('Trooper', 'Img/Trooper.png', '#FFFFFF')" style="margin-top: 10px;">Trooper</button>
             <button class="btn-login" onclick="selectProfile('Goofy', 'Img/Goofy.png', '#68FF00')" style="margin-top: 10px;">Goofy</button>
+            <button class="btn-login" onclick="selectProfile('Roaring Knight', 'Img/RKnight.png', '#FFFFFF')" style="margin-top: 10px;">Roaring Knight</button>
             <button class="btn-login" onclick="selectProfile('Administrador', 'Img/Icono.png', '#818cf8')" style="margin-top: 10px;">Administrador</button>
         </div>
     </div>
@@ -304,7 +572,7 @@
     <aside class="glass profile-card">
         <img src="Img/gaster.png" class="avatar" alt="Avatar" id="profileImg">
         <h2 id="profileName">Winding Gaster</h2>
-        <p style="color:var(--text-muted)">ID: #992831</p>
+        <p id="profileId" style="color:var(--text-muted)">ID: #992831</p>
         <div id="status-tag" class="status-indicator out-job">Fuera de Turno</div>
         <div style="margin-top: 30px; text-align: left;">
             <p style="font-size: 0.8rem; color: var(--text-muted);">HORAS HOY</p>
@@ -313,6 +581,24 @@
     </aside>
 
     <main>
+        <div id="adminPanel" class="glass admin-panel hidden">
+            <div class="admin-header">
+                <h3>🔧 Panel de Administración</h3>
+                <span class="admin-badge">ADMIN</span>
+            </div>
+            <div class="admin-actions">
+                <button class="btn-admin btn-clear-logs" onclick="clearRegistros()">
+                    <span>🗑️</span> Limpiar Registros
+                </button>
+                <button class="btn-admin btn-export" onclick="exportRegistros()">
+                    <span>📥</span> Descargar Registros
+                </button>
+                <button class="btn-admin btn-config" onclick="openConfigPanel()">
+                    <span>⚙️</span> Configurar Perfiles
+                </button>
+            </div>
+        </div>
+
         <div class="glass controls">
             <button id="entry" class="btn btn-entry" onclick="action('ENTRADA')">
                 <i>📥</i> <span id="entry-text">ENTRADA</span>
@@ -331,6 +617,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th>USUARIO</th>
                         <th>EVENTO</th>
                         <th>HORA EXACTA</th>
                         <th>ID TRANSACCIÓN</th>
@@ -352,10 +639,66 @@
     </div>
 </dialog>
 
+<!-- Panel de Configuración de Perfiles -->
+<div id="configPanel" class="config-panel">
+    <div class="config-content">
+        <div class="config-header">
+            <h2>⚙️ Configuración de Perfiles</h2>
+            <button class="btn-close-config" onclick="closeConfigPanel()">✕ Cerrar</button>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('users-list')">👥 Lista de Usuarios</button>
+            <button class="tab-btn" onclick="switchTab('edit-user')">✏️ Editar Perfil</button>
+        </div>
+
+        <!-- TAB 1: Lista de Usuarios -->
+        <div id="users-list" class="tab-content active">
+            <h3 style="margin-bottom: 20px; color: #818cf8;">Usuarios Registrados</h3>
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>ID</th>
+                        <th>Rol</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="usersList"></tbody>
+            </table>
+        </div>
+
+        <!-- TAB 2: Editar Perfil -->
+        <div id="edit-user" class="tab-content">
+            <h3 style="margin-bottom: 20px; color: #818cf8;">Editar Información de Perfil</h3>
+            <div class="edit-user-form">
+                <div class="form-group-config">
+                    <label for="editUserName">Nombre de Usuario</label>
+                    <input type="text" id="editUserName" disabled>
+                </div>
+                <div class="form-group-config">
+                    <label for="editUserId">ID del Usuario</label>
+                    <input type="text" id="editUserId">
+                </div>
+                <div class="form-group-config">
+                    <label for="editUserRol">Rol</label>
+                    <input type="text" id="editUserRol">
+                </div>
+            </div>
+            <div class="edit-actions">
+                <button class="btn-save-user" onclick="saveUserChanges()">💾 Guardar Cambios</button>
+                <button class="btn-cancel-edit" onclick="cancelEditUser()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     let startTime = null;
     let totalHours = 0;
     let inRetiro = false;
+    let currentUserName = '';
+    let isAdmin = false;
 
     // --- LÓGICA DEL CÓDIGO KONAMI ---
     const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
@@ -471,9 +814,43 @@
         else if (user === 'Goofy' && pass === 'Goofy123') {
             loginSuccess(user, "Img/Goofy.png", "#68FF00");
         }
+
+        else if (user === 'Roaring Knight' && pass === 'DarkFountain1225') {
+            loginSuccess(user, "Img/RKnight.png", "#FFFFFF");
+        }
         else {
             alert('Usuario o contraseña incorrectos.');
         }
+    }
+
+    const usuarios = {
+        'Winding Gaster': { id: '#666', rol: 'usuario' },
+        'Liam Van Luuk': { id: '#281047', rol: 'usuario' },
+        'Xhasnaphar': { id: '#475920', rol: 'usuario' },
+        'Maximiliano Plaza': { id: '#384756', rol: 'usuario' },
+        'Manuel Navarrete': { id: '#847362', rol: 'usuario' },
+        'Josue Silva': { id: '#192837', rol: 'usuario' },
+        'Chris Novoselic': { id: '#564738', rol: 'usuario' },
+        'Dave Grohl': { id: '#837465', rol: 'usuario' },
+        'Dark Vader': { id: '#102938', rol: 'usuario' },
+        'Obi Wan Kenobi': { id: '#654987', rol: 'usuario' },
+        'Cliff Burton': { id: '#321654', rol: 'usuario' },
+        'Nicolas Tesla': { id: '#789456', rol: 'usuario' },
+        'Jotaro Kujo': { id: '#7070', rol: 'usuario' },
+        'Albert Einstein': { id: '#123789', rol: 'usuario' },
+        'Marilyn Manson': { id: '#987321', rol: 'usuario' },
+        'Donald Trump': { id: '#654321', rol: 'usuario' },
+        'Mickey Mouse': { id: '#111222', rol: 'usuario' },
+        'Trooper': { id: '#333444', rol: 'usuario' },
+        'Goofy': { id: '#555666', rol: 'usuario' },
+        'Roaring Knight': { id: '#1225', rol: 'usuario' },
+        'Administrador': { id: '#ADMIN001', rol: 'admin' }
+    };
+
+    // Cargar usuarios guardados desde localStorage si existen
+    const usuariosGuardados = localStorage.getItem('usuarios');
+    if (usuariosGuardados) {
+        Object.assign(usuarios, JSON.parse(usuariosGuardados));
     }
 
     function loginSuccess(name, avatarUrl, borderColor) {
@@ -484,12 +861,71 @@
         profileImg.src = avatarUrl;
         profileImg.style.borderColor = borderColor;
         profileImg.style.boxShadow = `0 0 20px ${borderColor}66`;
+        const userInfo = usuarios[name];
+        document.getElementById('profileId').innerText = `ID: ${userInfo.id}`;
+        
+        // Guardar nombre del usuario actual
+        currentUserName = name;
+        
+        // Verificar si es administrador
+        isAdmin = (name === 'Administrador');
+        
+        // Mostrar u ocultar panel admin
+        const adminPanel = document.getElementById('adminPanel');
+        if (isAdmin) {
+            adminPanel.classList.remove('hidden');
+        } else {
+            adminPanel.classList.add('hidden');
+        }
+        
         startTime = null;
         totalHours = 0;
         inRetiro = false;
         document.getElementById('total-hrs').innerText = "0.00";
-        document.getElementById('log').innerHTML = "";
+        
+        // Cargar historial desde localStorage
+        loadActivityLog();
         setStatus('Fuera de Turno');
+    }
+
+    // --- FUNCIÓN PARA CARGAR EL HISTORIAL DESDE LOCALSTORAGE ---
+    function loadActivityLog() {
+        const log = document.getElementById('log');
+        log.innerHTML = "";
+        
+        const allActivities = JSON.parse(localStorage.getItem('activityLog')) || [];
+        
+        // Mostrar las actividades en orden descendente (más recientes primero)
+        allActivities.reverse().forEach(activity => {
+            addActivityRow(activity, false);
+        });
+    }
+
+    // --- FUNCIÓN PARA AGREGAR UNA FILA DE ACTIVIDAD AL LOG ---
+    function addActivityRow(activity, saveToStorage = true) {
+        const { userName, eventType, timeStr, txId, note } = activity;
+        
+        let colorHex = '#22c55e'; 
+        if(eventType === 'SALIDA') colorHex = '#ef4444';
+        if(eventType === 'RETIRO') colorHex = '#f59e0b';
+
+        let noteHtml = note && note.trim() !== '' ? `<br><small style="color:var(--text-muted); font-weight:normal;">📝 ${note}</small>` : '';
+
+        const row = `<tr>
+            <td style="font-weight:bold; color:#818cf8">${userName}</td>
+            <td style="font-weight:bold; color:${colorHex}">${eventType}${noteHtml}</td>
+            <td>${timeStr}</td>
+            <td><span class="tag">${txId}</span></td>
+        </tr>`;
+        
+        document.getElementById('log').insertAdjacentHTML('afterbegin', row);
+        
+        // Guardar en localStorage si es requerido
+        if (saveToStorage) {
+            const allActivities = JSON.parse(localStorage.getItem('activityLog')) || [];
+            allActivities.push(activity);
+            localStorage.setItem('activityLog', JSON.stringify(allActivities));
+        }
     }
 
     // --- FUNCIONES DE RELOJ ---
@@ -543,19 +979,18 @@
             setStatus('Fuera de Turno');
         }
 
-        let colorHex = '#22c55e'; 
-        if(type === 'SALIDA') colorHex = '#ef4444';
-        if(type === 'RETIRO') colorHex = '#f59e0b';
+        // Crear objeto de actividad con los datos
+        const activity = {
+            userName: currentUserName,
+            eventType: type,
+            timeStr: timeStr,
+            txId: txId,
+            note: note,
+            timestamp: now.getTime()
+        };
 
-        // Estilo para la nota en el historial
-        let noteHtml = note.trim() !== '' ? `<br><small style="color:var(--text-muted); font-weight:normal;">📝 ${note}</small>` : '';
-
-        const row = `<tr>
-            <td style="font-weight:bold; color:${colorHex}">${type}${noteHtml}</td>
-            <td>${timeStr}</td>
-            <td><span class="tag">${txId}</span></td>
-        </tr>`;
-        document.getElementById('log').insertAdjacentHTML('afterbegin', row);
+        // Agregar fila al log y guardar en localStorage
+        addActivityRow(activity, true);
     }
 
     function setStatus(status) {
@@ -586,6 +1021,148 @@
             exitBtn.disabled = true;
             breakBtn.disabled = true;
         }
+    }
+
+    // --- FUNCIONES DEL ADMINISTRADOR ---
+    function clearRegistros() {
+        if (confirm('⚠️ ¿Estás seguro de que deseas LIMPIAR todos los registros?\n\nEsta acción NO se puede deshacer.')) {
+            if (confirm('Confirmación final: Los registros se eliminarán permanentemente. ¿Continuar?')) {
+                localStorage.removeItem('activityLog');
+                document.getElementById('log').innerHTML = '';
+                alert('✅ Registros eliminados exitosamente.');
+            }
+        }
+    }
+
+    function exportRegistros() {
+        const allActivities = JSON.parse(localStorage.getItem('activityLog')) || [];
+        
+        if (allActivities.length === 0) {
+            alert('No hay registros para descargar.');
+            return;
+        }
+
+        // Crear contenido CSV
+        let csvContent = 'data:text/csv;charset=utf-8,';
+        csvContent += 'USUARIO,EVENTO,HORA,ID_TRANSACCIÓN,NOTA\n';
+        
+        allActivities.forEach(activity => {
+            const { userName, eventType, timeStr, txId, note } = activity;
+            const noteSafe = (note || '').replace(/"/g, '""');
+            csvContent += `"${userName}","${eventType}","${timeStr}","${txId}","${noteSafe}"\n`;
+        });
+        
+        // Crear descarga
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement('a');
+        link.setAttribute('href', encodedUri);
+        link.setAttribute('download', `registros_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        alert(`✅ Registros descargados: ${allActivities.length} registros`);
+    }
+
+    // --- FUNCIONES DE CONFIGURACIÓN DE PERFILES ---
+    let currentEditingUser = null;
+
+    function openConfigPanel() {
+        if (!isAdmin) {
+            alert('❌ Solo el administrador puede acceder a esta sección.');
+            return;
+        }
+        document.getElementById('configPanel').classList.add('active');
+        loadUsersList();
+    }
+
+    function closeConfigPanel() {
+        document.getElementById('configPanel').classList.remove('active');
+        currentEditingUser = null;
+    }
+
+    function switchTab(tabName) {
+        // Ocultar todos los tabs
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // Mostrar tab seleccionado
+        document.getElementById(tabName).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    function loadUsersList() {
+        const usersList = document.getElementById('usersList');
+        usersList.innerHTML = '';
+
+        Object.entries(usuarios).forEach(([name, info]) => {
+            const row = `
+                <tr>
+                    <td style="font-weight: bold; color: #818cf8;">${name}</td>
+                    <td><span class="tag">${info.id}</span></td>
+                    <td style="text-transform: capitalize;">${info.rol}</td>
+                    <td>
+                        <button class="btn-edit-user" onclick="editUser('${name}')">Editar</button>
+                    </td>
+                </tr>
+            `;
+            usersList.insertAdjacentHTML('beforeend', row);
+        });
+    }
+
+    function editUser(userName) {
+        currentEditingUser = userName;
+        const userInfo = usuarios[userName];
+
+        document.getElementById('editUserName').value = userName;
+        document.getElementById('editUserId').value = userInfo.id;
+        document.getElementById('editUserRol').value = userInfo.rol;
+
+        // Cambiar a la pestaña de edición
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.getElementById('edit-user').classList.add('active');
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+    }
+
+    function saveUserChanges() {
+        if (!currentEditingUser) return;
+
+        const newId = document.getElementById('editUserId').value.trim();
+        const newRol = document.getElementById('editUserRol').value.trim();
+
+        if (!newId) {
+            alert('⚠️ El ID no puede estar vacío.');
+            return;
+        }
+
+        // Actualizar datos del usuario
+        usuarios[currentEditingUser].id = newId;
+        usuarios[currentEditingUser].rol = newRol;
+
+        // Guardar en localStorage
+        localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+        alert(`✅ Perfil de "${currentEditingUser}" actualizado exitosamente.`);
+        loadUsersList();
+
+        // Limpiar formulario
+        cancelEditUser();
+    }
+
+    function cancelEditUser() {
+        document.getElementById('editUserName').value = '';
+        document.getElementById('editUserId').value = '';
+        document.getElementById('editUserRol').value = '';
+        currentEditingUser = null;
     }
 
 </script>

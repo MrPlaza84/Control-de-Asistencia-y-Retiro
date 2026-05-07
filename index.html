@@ -316,6 +316,32 @@
             box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
         }
 
+        .btn-doom {
+            background: linear-gradient(135deg, #ff0000, #8b0000);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .btn-doom:hover {
+            background: linear-gradient(135deg, #cc0000, #660000);
+        }
+
+        .doom-panel {
+            position: fixed;
+            inset: 0;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #jsdos {
+            width: 800px;
+            height: 600px;
+            border: 2px solid #444;
+        }
+
         .tabs {
             display: flex;
             gap: 10px;
@@ -596,7 +622,15 @@
                 <button class="btn-admin btn-config" onclick="openConfigPanel()">
                     <span>⚙️</span> Configurar Perfiles
                 </button>
+                <button class="btn-admin btn-doom" onclick="showDoom()">
+                    <span>🎮</span> Administrar cosas MUUUY "Importantes"
+                </button>
             </div>
+        </div>
+
+        <div id="doomPanel" class="doom-panel hidden">
+            <button style="position: absolute; top: 10px; right: 10px; background: red; color: white; border: none; padding: 10px; cursor: pointer;" onclick="closeDoom()">Cerrar</button>
+            <div id="jsdos"></div>
         </div>
 
         <div class="glass controls">
@@ -1163,6 +1197,40 @@
         document.getElementById('editUserId').value = '';
         document.getElementById('editUserRol').value = '';
         currentEditingUser = null;
+    }
+
+    function showDoom() {
+        document.getElementById('adminPanel').classList.add('hidden');
+        document.getElementById('doomPanel').classList.remove('hidden');
+        if (!window.Dos) {
+            const script = document.createElement('script');
+            script.src = 'https://js-dos.com/6.22/current/js-dos.js';
+            document.head.appendChild(script);
+            script.onload = () => {
+                loadDoom();
+            };
+        } else {
+            loadDoom();
+        }
+    }
+
+    function loadDoom() {
+        (async () => {
+            try {
+                const ci = await Dos(document.getElementById("jsdos"), {
+                    wdosboxUrl: "https://js-dos.com/6.22/current/wdosbox.js"
+                });
+                await ci.fs.extract("https://js-dos.com/DOOM/doom19s.zip");
+                ci.main(["doom.exe"]);
+            } catch (err) {
+                console.error("Error al cargar DOOM:", err);
+            }
+        })();
+    }
+
+    function closeDoom() {
+        document.getElementById('doomPanel').classList.add('hidden');
+        document.getElementById('adminPanel').classList.remove('hidden');
     }
 
 </script>

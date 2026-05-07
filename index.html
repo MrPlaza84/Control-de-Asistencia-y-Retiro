@@ -330,17 +330,28 @@
         .doom-panel {
             position: fixed;
             inset: 0;
-            background: black;
+            background: rgba(0, 0, 0, 0.98);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            flex-direction: column;
+            padding: 20px;
         }
 
         #jsdos {
-            width: 800px;
-            height: 600px;
+            width: min(800px, 90vw);
+            height: min(600px, 80vh);
             border: 2px solid #444;
+            background: black;
+            position: relative;
+        }
+
+        #doomStatus {
+            color: white;
+            margin-bottom: 16px;
+            font-size: 1rem;
+            text-align: center;
         }
 
         .tabs {
@@ -630,7 +641,8 @@
         </div>
 
         <div id="doomPanel" class="doom-panel hidden">
-            <button style="position: absolute; top: 10px; right: 10px; background: red; color: white; border: none; padding: 10px; cursor: pointer;" onclick="closeDoom()">Cerrar</button>
+            <button style="position: absolute; top: 10px; right: 10px; background: red; color: white; border: none; padding: 10px; cursor: pointer; z-index: 1100;" onclick="closeDoom()">Cerrar</button>
+            <div id="doomStatus">Preparando DOOM...</div>
             <div id="jsdos"></div>
         </div>
 
@@ -1207,21 +1219,38 @@
     }
 
     function loadDoom() {
-        console.log("Cargando DOOM...");
+        const statusEl = document.getElementById('doomStatus');
+        const container = document.getElementById('jsdos');
+        statusEl.textContent = 'Cargando DOOM...';
+        container.innerHTML = '';
+
         (async () => {
             try {
-                console.log("Inicializando Dos...");
-                const ci = await Dos(document.getElementById("jsdos"), {
-                    wdosboxUrl: "https://js-dos.com/6.22/current/wdosbox.js"
+                if (!window.Dos) {
+                    throw new Error('La librería js-dos no está disponible');
+                }
+
+                statusEl.textContent = 'Inicializando emulador...';
+                const ci = await Dos(container, {
+                    wdosboxUrl: 'https://js-dos.com/6.22/current/wdosbox.js'
                 });
-                console.log("Extrayendo ZIP...");
-                await ci.fs.extract("https://js-dos.com/DOOM/doom19s.zip");
-                console.log("Ejecutando DOOM...");
-                ci.main(["doom.exe"]);
-                console.log("DOOM cargado exitosamente.");
+
+                statusEl.textContent = 'Descargando archivos de DOOM...';
+                await ci.fs.extract('https://js-dos.com/DOOM/doom19s.zip');
+
+                statusEl.textContent = 'Ejecutando DOOM...';
+                if (typeof ci.main === 'function') {
+                    await ci.main(['doom.exe']);
+                } else if (typeof ci.run === 'function') {
+                    await ci.run('doom.exe');
+                } else {
+                    throw new Error('No se encontró un método válido para iniciar DOOM');
+                }
+                statusEl.textContent = '';
             } catch (err) {
-                console.error("Error al cargar DOOM:", err);
-                alert("Error al cargar DOOM: " + err.message);
+                console.error('Error al cargar DOOM:', err);
+                statusEl.textContent = 'Error al cargar DOOM. Revisa la consola del navegador.';
+                alert('Error al cargar DOOM: ' + (err.message || err));
             }
         })();
     }

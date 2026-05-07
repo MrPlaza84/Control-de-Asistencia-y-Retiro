@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fungang | Dashboard</title>
-    <script src="https://js-dos.com/6.22/current/js-dos.js"></script>
+    <link rel="stylesheet" href="https://v8.js-dos.com/latest/js-dos.css">
+    <script src="https://v8.js-dos.com/latest/js-dos.js"></script>
     <style>
         :root {
             --primary: #ffffff;
@@ -1230,22 +1231,11 @@
                     throw new Error('La librería js-dos no está disponible');
                 }
 
-                statusEl.textContent = 'Inicializando emulador...';
-                const ci = await Dos(container, {
-                    wdosboxUrl: 'https://js-dos.com/6.22/current/wdosbox.js'
+                statusEl.textContent = 'Inicializando Doom bundle...';
+                await Dos(container, {
+                    url: 'https://v8.js-dos.com/bundles/doom.jsdos'
                 });
 
-                statusEl.textContent = 'Descargando archivos de DOOM...';
-                await ci.fs.extract('https://js-dos.com/DOOM/doom19s.zip');
-
-                statusEl.textContent = 'Ejecutando DOOM...';
-                if (typeof ci.main === 'function') {
-                    await ci.main(['doom.exe']);
-                } else if (typeof ci.run === 'function') {
-                    await ci.run('doom.exe');
-                } else {
-                    throw new Error('No se encontró un método válido para iniciar DOOM');
-                }
                 statusEl.textContent = '';
             } catch (err) {
                 console.error('Error al cargar DOOM:', err);

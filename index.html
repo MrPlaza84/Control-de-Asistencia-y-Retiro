@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fungang | Dashboard</title>
+    <script src="https://js-dos.com/6.22/current/js-dos.js"></script>
     <style>
         :root {
             --primary: #ffffff;
@@ -1202,28 +1203,25 @@
     function showDoom() {
         document.getElementById('adminPanel').classList.add('hidden');
         document.getElementById('doomPanel').classList.remove('hidden');
-        if (!window.Dos) {
-            const script = document.createElement('script');
-            script.src = 'https://js-dos.com/6.22/current/js-dos.js';
-            document.head.appendChild(script);
-            script.onload = () => {
-                loadDoom();
-            };
-        } else {
-            loadDoom();
-        }
+        loadDoom();
     }
 
     function loadDoom() {
+        console.log("Cargando DOOM...");
         (async () => {
             try {
+                console.log("Inicializando Dos...");
                 const ci = await Dos(document.getElementById("jsdos"), {
                     wdosboxUrl: "https://js-dos.com/6.22/current/wdosbox.js"
                 });
+                console.log("Extrayendo ZIP...");
                 await ci.fs.extract("https://js-dos.com/DOOM/doom19s.zip");
+                console.log("Ejecutando DOOM...");
                 ci.main(["doom.exe"]);
+                console.log("DOOM cargado exitosamente.");
             } catch (err) {
                 console.error("Error al cargar DOOM:", err);
+                alert("Error al cargar DOOM: " + err.message);
             }
         })();
     }

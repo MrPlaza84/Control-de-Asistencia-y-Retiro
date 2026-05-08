@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fungang | Dashboard</title>
-    <link rel="stylesheet" href="https://v8.js-dos.com/latest/js-dos.css">
-    <script src="https://v8.js-dos.com/latest/js-dos.js"></script>
     <style>
         :root {
             --primary: #ffffff;
@@ -1219,35 +1217,73 @@
         loadDoom();
     }
 
-    function loadDoom() {
+    async function loadDosAssets() {
+        if (!document.getElementById('jsdosStyles')) {
+            const link = document.createElement('link');
+            link.id = 'jsdosStyles';
+            link.rel = 'stylesheet';
+            link.href = 'https://v8.js-dos.com/latest/js-dos.css';
+            document.head.appendChild(link);
+            await new Promise((resolve, reject) => {
+                link.onload = resolve;
+                link.onerror = () => reject(new Error('No se pudo cargar js-dos CSS'));
+            });
+        }
+
+        if (!window.Dos) {
+            if (!document.getElementById('jsdosScript')) {
+                const script = document.createElement('script');
+                script.id = 'jsdosScript';
+                script.src = 'https://v8.js-dos.com/latest/js-dos.js';
+                document.head.appendChild(script);
+                await new Promise((resolve, reject) => {
+                    script.onload = resolve;
+                    script.onerror = () => reject(new Error('No se pudo cargar js-dos JS'));
+                });
+            } else {
+                await new Promise(resolve => {
+                    const existing = document.getElementById('jsdosScript');
+                    if (window.Dos) return resolve();
+                    existing.onload = resolve;
+                });
+            }
+        }
+    }
+
+    function removeDosAssets() {
+        const style = document.getElementById('jsdosStyles');
+        if (style) style.remove();
+        // Keep the JS loaded for performance, only remove CSS to avoid style conflicts.
+    }
+
+    async function loadDoom() {
         const statusEl = document.getElementById('doomStatus');
         const container = document.getElementById('jsdos');
         statusEl.textContent = 'Cargando DOOM...';
         container.innerHTML = '';
 
-        (async () => {
-            try {
-                if (!window.Dos) {
-                    throw new Error('La librería js-dos no está disponible');
-                }
-
-                statusEl.textContent = 'Inicializando Doom bundle...';
-                await Dos(container, {
-                    url: 'https://v8.js-dos.com/bundles/doom.jsdos'
-                });
-
-                statusEl.textContent = '';
-            } catch (err) {
-                console.error('Error al cargar DOOM:', err);
-                statusEl.textContent = 'Error al cargar DOOM. Revisa la consola del navegador.';
-                alert('Error al cargar DOOM: ' + (err.message || err));
+        try {
+            await loadDosAssets();
+            if (!window.Dos) {
+                throw new Error('La librería js-dos no está disponible');
             }
-        })();
+
+            statusEl.textContent = 'Inicializando Doom bundle...';
+            await Dos(container, {
+                url: 'https://v8.js-dos.com/bundles/doom.jsdos'
+            });
+            statusEl.textContent = '';
+        } catch (err) {
+            console.error('Error al cargar DOOM:', err);
+            statusEl.textContent = 'Error al cargar DOOM. Revisa la consola del navegador.';
+            alert('Error al cargar DOOM: ' + (err.message || err));
+        }
     }
 
     function closeDoom() {
         document.getElementById('doomPanel').classList.add('hidden');
         document.getElementById('adminPanel').classList.remove('hidden');
+        removeDosAssets();
     }
 
 </script>
